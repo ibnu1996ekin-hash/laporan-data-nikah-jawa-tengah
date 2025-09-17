@@ -3,54 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laporan Grafik Interaktif</title>
-  <!-- Import Chart.js -->
+  <title>Laporan Data Nikah Jawa Tengah</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      padding: 20px;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin: 20px;
+      background: #f8f9fa;
     }
     h1 {
       text-align: center;
-      margin-bottom: 30px;
+      color: #333;
     }
     form {
       display: flex;
-      gap: 10px;
       justify-content: center;
-      margin-bottom: 20px;
+      margin: 20px 0;
+      gap: 10px;
     }
     input, button {
-      padding: 10px;
+      padding: 8px;
       font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
     }
-    button {
-      background: #007BFF;
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-    canvas {
-      margin-top: 20px;
+    #chart-container {
+      width: 80%;
+      margin: auto;
     }
   </style>
 </head>
 <body>
-  <div class="contai
+  <h1>Laporan Data Nikah Jawa Tengah</h1>
+
+  <form id="dataForm">
+    <input type="text" id="bulan" placeholder="Bulan (misal: Januari)" required>
+    <input type="number" id="jumlah" placeholder="Jumlah (misal: 120)" required>
+    <button type="submit">Tambah Data</button>
+  </form>
+
+  <div id="chart-container">
+    <canvas id="myChart"></canvas>
+  </div>
+
+  <script>
+    // Data awal kosong
+    const labels = [];
+    const data = {
+      labels: labels,
+      datasets: [{
+        label: 'Jumlah Pernikahan',
+        data: [],
+        backgroundColor: 'rgba(54, 162, 235, 0.7)'
+      }]
+    };
+
+    // Konfigurasi grafik
+    const config = {
+      type: 'bar',
+      data: data,
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    // Render grafik
+    const myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+
+    // Event ketika form disubmit
+    document.getElementById('dataForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const bulan = document.getElementById('bulan').value;
+      const jumlah = document.getElementById('jumlah').value;
+
+      // Masukkan ke grafik
+      labels.push(bulan);
+      data.datasets[0].data.push(jumlah);
+      myChart.update();
+
+      // Reset form
+      document.getElementById('dataForm').reset();
+    });
+  </script>
+</body>
+</html>
 
